@@ -8,16 +8,59 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <script src="musicubu.js" async defer></script>
-    </head>
-    <body>
-        <h1>Musicubu</h1>
-        <h3>Página Principal</h3>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+.amongsus {
+    animation-name: balanceo;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
 
-        <label for="BPM">BPM</label>
-        <input type="number" id="BPM" name="BPM" value="120">
-        
-        <label for="nota">Escala</label>
-        <select id="nota" name="nota">
+@keyframes balanceo {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(10deg);
+    }100% {
+        transform: rotate(0deg);
+    }
+}
+
+
+            input[type="number"]::-webkit-outer-spin-button,
+            input[type="number"]::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+            
+            /* Firefox */
+            input[type="number"] {
+              -moz-appearance: textfield;
+            }
+            </style>
+    </head>
+    <body class="relative relative flex flex-col items-center gap-5 h-[100vh] w-full bg-slate-950 text-white mx-auto z-[-1] flex flex-col">
+        <div class="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] z-[-5]"></div>
+        <h1 class="text-6xl  text-center my-5 text-white/80">Music<span class="text-white font-semibold">ubu<span></h1>
+        <div class="mx-auto w-[450px] bg-black/50 rounded-lg py-5 px-10 shadow-[0px_-1px_12px_0px_rgba(255,255,255,0.1)]">
+        <label class="flex items-center" for="BPM">
+            <span class="grow">BPM</span>
+            <input aria-controls="none" class="text-center shadow appearance-none w-[70px] rounded py-2 text-white bg-white/30 leading-tight " type="number" id="BPM" name="BPM" value="120">
+        </label>
+        <label class="flex items-center my-2" for="nota">
+        <span class="grow">Escala</span>
+        <select class="text-center shadow appearance-none w-[70px] rounded py-2 text-white bg-white/30 leading-tight " id="nota" name="nota">
             <option value="0">Do</option>
             <option value="1">Do#</option>
             <option value="2">Re</option>
@@ -31,25 +74,37 @@
             <option value="10">La#</option>
             <option value="11">Si</option>
         </select>
-        <select id="tipoEscala" name="tipoEscala">
-            <option value="true">Mayor</option>
-            <option value="false">Menor</option>
-        </select>
-
-        <label for="estilo">Estilo</label>
-        <select id="estilo" name="estilo">
+        </label>
+        <label class="flex items-center" for="">
+            <span class="grow">Tipo de Escala</span>
+            <select id="tipoEscala" name="tipoEscala" class="text-center shadow appearance-none w-[70px] rounded py-2 text-white bg-white/30 leading-tight ">
+                <option value="true">Mayor</option>
+                <option value="false">Menor</option>
+            </select>
+        </label>
+        <label class="flex items-center my-2" for="estilo">
+            <span class="grow">Estilo</span>
+        <select class="text-center shadow appearance-none w-[70px] rounded py-2 text-white bg-white/30 leading-tight " id="estilo" name="estilo">
             <option value="square">Normal</option>
             <option value="sawtooth">Duro</option>
             <option value="triangle">Suave</option>
         </select>
-        <label for="percusion">Percusión</label>
-        <select id="percusion" name ="percusion">
+    </label>
+        <label class="flex items-center my-2" for="percusion">
+            <span class="grow">Percusión</span>
+        <select class="text-center shadow appearance-none w-[70px] rounded py-2 text-white bg-white/30 leading-tight " id="percusion" name ="percusion">
             <option value="0">Normal</option>
             <option value="1">Suave</option>
             <option value="2">Fuerte</option>
             <option value="3">Desactivado</option>
         </select>
-
-        <button onclick="ReproducirCancion()">Canción Aleatoria</button>
+    </label>
+    </div>
+    
+    <button class="w-[180px] py-2 bg-black/50 font-semibold rounded-lg" onclick='ReproducirCancion()'>Canción Aleatoria</button>
+    <a href="https://github.com/AxelGFC/Musicubu" class="absolute right-[25px] bottom-[25px] flex flex-col items-center group">
+        <span class="text-sm px-3 py-2 bg-gray-400 rounded-lg translate opacity-0 group-hover:opacity-100">AxelGFC</span>
+        <img src="amongus.png" alt="Imagen de amongus" id="amongus" class="w-14 opacity-50 hover:opacity-100">
+    </a>
     </body>
 </html>
