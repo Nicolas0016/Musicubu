@@ -15,7 +15,7 @@ var escalaFormada = [];
 var armonia = [[], [], []];
 var melodia = [];
 var percusion = []; //0=silencio 1=bombo 2=caja
-
+var audioSonando = false;
 var escalaMayor = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19, 21, 23, 24]; //TTSTTTS
 var escalaMenor = [0, 2, 3, 5, 7, 8, 10, 12, 14, 15, 16, 18, 19, 21, 23]; //TSTTSTT
 
@@ -71,6 +71,12 @@ function crearEscala(escala, frecuenciaBase) {
 }
 
 function CrearCancionAleatoria(escala) {
+  armonia = [[], [], []];
+  melodia = [];
+  percusion = [];
+
+  let bateriaActivada = false;
+  let compasLocal = 0;
   //Creamos la cancion a partir de una escala
   let bateriaActivada = false;
   let compasLocal = 0;
@@ -79,6 +85,7 @@ function CrearCancionAleatoria(escala) {
   let tercera;
   let quinta;
   let golpeBateria = 0;
+  
   for (let i = 0; i < 160; i++) {
     if (compasLocal == 4) {
       if (BooleanoAleatorio(0.5)) {
@@ -267,39 +274,42 @@ function ReproducirPercusion(golpe, duracion) {
 }
 
 function ReproducirCancion() {
-  //Reproducimos la cancion formada
-  AplicarConfiguracion(); //Aplicar la configuracion del usuario
-  CrearCancionAleatoria(escalaFormada); //Creamos la cancion a partir de su escala
+  // Si ya hay audio sonando, ignoramos el clic para evitar que se superpongan
+  if (audioSonando) return; 
+
+  AplicarConfiguracion(); 
+  CrearCancionAleatoria(escalaFormada); 
+  
   let i = 0;
   let compasLocal = 0;
-  let audioSonando = false;
-  if (!audioSonando) {
-    amongus.classList.add("amongsus");
-    function Reproducir() {
-      if (i < armonia.length) {
-        compasLocal++;
+  
+  // Bloqueamos el reproductor
+  audioSonando = true;
+  amongus.classList.add("amongsus");
 
-        ReproducirNota(armonia[0][i]);
-        ReproducirNota(armonia[1][i]);
-        ReproducirNota(armonia[2][i]);
+  function Reproducir() {
+    // Usamos melodia.length (que tiene las 320 notas) en lugar de armonia.length (que siempre es 3)
+    if (i < melodia.length) { 
+      compasLocal++;
 
-        ReproducirNota(melodia[i]);
+      ReproducirNota(armonia[0][i]);
+      ReproducirNota(armonia[1][i]);
+      ReproducirNota(armonia[2][i]);
+      ReproducirNota(melodia[i]);
+      ReproducirPercusion(percusion[i], bpm_decseg);
 
-        ReproducirPercusion(percusion[i], bpm_decseg);
-
-        i++;
-        if (compasLocal == 4) {
-          compasLocal = 0;
-        }
-
-        setTimeout(Reproducir, bpm_miliseg);
-      } else {
-        audioSonando = false;
-        i = 0;
+      i++;
+      if (compasLocal == 4) {
+        compasLocal = 0;
       }
-    }
 
-    audioSonando = true;
-    Reproducir();
+      setTimeout(Reproducir, bpm_miliseg);
+    } else {
+      // La canción terminó, liberamos el reproductor para permitir un nuevo clic
+      audioSonando = false;
+      amongus.classList.remove("amongsus"); // Opcional: quita la clase al terminar
+    }
   }
+
+  Reproducir();
 }
